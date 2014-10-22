@@ -28,11 +28,12 @@ def pmt(pv, n, r); (pv*r)/(1.0 - 1/(1.0+r)**n); end
 raise "Error: pmt()" if pmt(pv(1000, 10, 0.06), 10, 0.06) != 1000.0
 #####################################################################################
 
+ans = []
 # Question 1
 # (5 points) Carlos goes to the bank to take out a personal loan. The stated annual 
 # interest rate is 12%, but interest is compounded monthly and he will make monthly 
 # payments. The effective annual interest rate (EAR) of the loan is less than 12%. 
-ans = false
+ans << false
 
 # Question 2
 # (5 points) Gloria is 35 and trying to plan for retirement. She has put a budget
@@ -42,7 +43,7 @@ ans = false
 n = 65 - 35
 r = 0.07
 c = 4800
-savings = fv(c, n, r).round
+ans <<  fv(c, n, r).round
 
 # Question 3
 # (5 points) Mohammad has just turned 21 and now has access to the money his parents 
@@ -54,7 +55,7 @@ savings = fv(c, n, r).round
 n = 21 - 5 + 1
 r = 0.035
 c = 1000
-fv(c, n, r).round
+ans << fv(c, n, r).round
 
 # Question 4
 # (5 points) Marcel has just graduated from college and has found a job that will pay 
@@ -65,7 +66,7 @@ fv(c, n, r).round
 n = 5
 r = 0.03
 c = 25000
-pv(c, n, r).round
+ans << pv(c, n, r).round
 
 # Question 5
 # (10 points) Rachna is considering a life insurance plan that will require her to 
@@ -76,7 +77,7 @@ pv(c, n, r).round
 c = 200
 n = 40
 r = 0.04
-pv(c, n, r).roun
+ans << pv(c, n, r).round
 
 # Question 6
 # (10 points) Roxanne is in the market for a new house, and she has found a house 
@@ -87,7 +88,7 @@ pv(c, n, r).roun
 # first monthly payment? 
 loan = 0.8 * 250000
 r = 0.06/12
-int = loan * r
+ans << (loan * r).round
 
 # Question 7
 # (15 points) Baako has invested $75,000 in a trust fund at 9% for his child's college 
@@ -98,7 +99,7 @@ r = 0.09
 investment_10 = comp(75000, 10, r)
 education = fv(30000, 4, r)
 remainder = investment_10 - education
-"Investment leftover after 10 years = #{remainder.round}"
+ans << remainder.round
 
 # Question 8
 # (15 points) Two years ago Abilia purchased a $10,000 car; she paid $2000 down and 
@@ -118,9 +119,9 @@ bal = pv(p_8, n_6, r_8)
 r_6 = 0.06/12
 p_6 = pmt(bal, n_6, r_6)
 if (p_6 < p_8)
- "Ans = (yes, #{(p_8-p_6).round})"
+ ans << "(yes, #{(p_8-p_6).round})"
 else
- "Ans = (no, #{(p_6-p_8).round})"
+ ans << "(no, #{(p_6-p_8).round})"
 end 
 
 # Question 9
@@ -141,9 +142,9 @@ new_price = remaining_balance + 200
 r_new = 0.04/12 
 old_price = pv(payment, n/2, r_new)
 if (new_price < old_price)
- "Ans = (yes, gain #{(old_price - new_price).round})"
+ ans << "(yes, gain #{(old_price - new_price).round})"
 else
- "Ans = (no, lose #{(new_price - old_price).round})"
+ ans << "(no, lose #{(new_price - old_price).round})"
 end
 
 # Question 10
@@ -159,5 +160,7 @@ end
 rate = 0.05/12
 option_1 = 6000
 option_2 = pv(125, 48, rate) + disc(1000, 48, rate)
-"Net cost of cheapest option = #{(option_1<option_2 ? option_1 : option_2).round}"
+ans << (option_1<option_2 ? option_1 : option_2).round
 
+# Print answers
+(1..ans.count).each {|i| puts i.to_s + ". "+ ans[i-1].to_s}
