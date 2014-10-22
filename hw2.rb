@@ -10,7 +10,7 @@ def compound(c, n, r); c * ((1+r)**n); end
 def discount(c, n, r); c / ((1+r)**n); end
 def comp(c,n,r); compound(c,n,r); end
 def disc(c,n,r); discount(c,n,r); end
-raise "Error: comp() and disc()" if comp(1, 1, 1) != 2 or disc(2, 1, 1) != 1 or disc(comp(100, 10, 0.1), 10, 0.1).round != 100
+raise "Error: comp() and disc()" if comp(1,1,1)!=2 or disc(comp(9,7,0.1),7,0.1)!=9
 
 # Computes the PV and FV of a leveled cache flow (annunity).
 #  c - payment (fixed per period)
@@ -27,6 +27,12 @@ raise "Error: pv() and fv()" if pv(1000, 10, 0.05) != fv(1000, 10, 0.05)/(1.05)*
 def pmt(pv, n, r); (pv*r)/(1.0 - 1/(1.0+r)**n); end
 raise "Error: pmt()" if pmt(pv(1000, 10, 0.06), 10, 0.06) != 1000.0
 #####################################################################################
+
+# Question 1
+# (5 points) Carlos goes to the bank to take out a personal loan. The stated annual 
+# interest rate is 12%, but interest is compounded monthly and he will make monthly 
+# payments. The effective annual interest rate (EAR) of the loan is less than 12%. 
+ans = false
 
 # Question 2
 # (5 points) Gloria is 35 and trying to plan for retirement. She has put a budget
@@ -135,9 +141,9 @@ new_price = remaining_balance + 200
 r_new = 0.04/12 
 old_price = pv(payment, n/2, r_new)
 if (new_price < old_price)
- "Ans = (yes, #{(old_price - new_price).round})"
+ "Ans = (yes, gain #{(old_price - new_price).round})"
 else
- "Ans = (no, #{(new_price - old_price).round})"
+ "Ans = (no, lose #{(new_price - old_price).round})"
 end
 
 # Question 10
