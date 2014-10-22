@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+#####################################################################################
+# Finance functions
+#####################################################################################
 # Basic compounding and discounting
 #  c - amount (single)
 #  n - number of periods
@@ -24,6 +26,7 @@ raise "Error: pv() and fv()" if pv(1000, 10, 0.05) != fv(1000, 10, 0.05)/(1.05)*
 #  r  - interest rate (per period)
 def pmt(pv, n, r); (pv*r)/(1.0 - 1/(1.0+r)**n); end
 raise "Error: pmt()" if pmt(pv(1000, 10, 0.06), 10, 0.06) != 1000.0
+#####################################################################################
 
 # Question 2
 # (5 points) Gloria is 35 and trying to plan for retirement. She has put a budget
