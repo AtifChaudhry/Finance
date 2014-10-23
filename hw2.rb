@@ -29,7 +29,7 @@ raise "Test 2.c: Failed" if fv(100, 2, 0.06).round(2) != (comp(100,1,0.06)+comp(
 #  n  - number of periods
 #  r  - interest rate (per period)
 def pmt(pv, n, r); (pv*r)/(1.0 - 1/(1.0+r)**n); end
-raise "Test 3.a: Failed" if pmt(100, 1, 0.1).round != 110
+raise "Test 3.a: Failed" if pmt(100, 1, 0.1).round(2) != 110
 raise "Test 3.b: Failed" if pmt(pv(1000, 10, 0.06), 10, 0.06) != 1000
 
 #####################################################################################
