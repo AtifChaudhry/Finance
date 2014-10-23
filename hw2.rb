@@ -158,7 +158,6 @@ end
 # $6,000 to be repaid monthly over 4 years.(ii) Rent-to-buy from the same store. 
 # The monthly rental is $125 for 48 months and then you pay $1,000 to own all the 
 # appliances. What is the net cost today of the cheapest option? 
-
 rate = 0.05/12
 option_1 = 6000
 option_2 = pv(125, 48, rate) + disc(1000, 48, rate)
