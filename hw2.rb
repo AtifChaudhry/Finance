@@ -20,7 +20,7 @@ raise "Test 1.b: Failed" if disc(comp(9, 7, 0.1), 7, 0.1) != 9
 #  r - interest rate (per period)
 def pv(c, n, r); c*(1.0/r)*(1 - (1.0/(1+r)**n)); end
 def fv(c, n, r); comp(pv(c, n, r), n, r); end
-raise "Test 2.a: Failed" if pv(1000, 10, 0.05) != fv(1000, 10, 0.05)/(1.05)**10
+raise "Test 2.a: Failed" if pv(1000, 10, 0.05) != disc(fv(1000, 10, 0.05), 10, 0.05)
 raise "Test 2.b: Failed" if pv(100, 1, 0.06).round(2) != disc(100, 1, 0.06).round(2)
 raise "Test 2.c: Failed" if fv(100, 2, 0.06).round(2) != (comp(100,1,0.06)+comp(100,0,0.06)).round(2)
 
