@@ -28,7 +28,9 @@ def pmt(pv, n, r); (pv*r)/(1.0 - 1/(1.0+r)**n); end
 raise "Error: pmt()" if pmt(pv(1000, 10, 0.06), 10, 0.06) != 1000.0
 #####################################################################################
 
+# Collect answers in the ans array
 ans = []
+
 # Question 1
 # (5 points) Carlos goes to the bank to take out a personal loan. The stated annual 
 # interest rate is 12%, but interest is compounded monthly and he will make monthly 
@@ -162,5 +164,5 @@ option_1 = 6000
 option_2 = pv(125, 48, rate) + disc(1000, 48, rate)
 ans << (option_1<option_2 ? option_1 : option_2).round
 
-# Print answers
+# Print answers from the ans array
 (1..ans.count).each {|i| puts i.to_s + ". "+ ans[i-1].to_s}
