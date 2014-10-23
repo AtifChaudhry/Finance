@@ -104,10 +104,9 @@ ans << (loan * r).round
 # of year 7. What will be the amount that will be left over in the education fund at 
 # the end of year 10, just after the child has withdrawn the fourth time? 
 r = 0.09
-investment_10 = comp(75000, 10, r)
-education = fv(30000, 4, r)
-remainder = investment_10 - education
-ans << remainder.round
+investment = comp(75000, 10, r)
+education  = fv(30000, 4, r)
+ans << (investment - education).round
 
 # Question 8
 # (15 points) Two years ago Abilia purchased a $10,000 car; she paid $2000 down and 
@@ -117,7 +116,6 @@ ans << remainder.round
 # fixed rate of 6% per year for 3 years. Should Abilia refinance her loan? How 
 # much will she save per month for the next three years if she decides to 
 # refinance?
-#
 bal = 10000 - 2000
 r_8 = 0.08/12
 n_8 = 60
@@ -141,13 +139,13 @@ end
 # of 4% per year. You will use the proceeds of this loan to pay off the old loan. 
 # Suppose the new loan requires a $200 non-refundable application fee. Given all 
 # this information, should you refinance? How much do you gain/lose if you do? 
-loan = 20000 - 4000
-r = 0.06/12
-n = 48
-payment = pmt(loan, n, r)
-remaining_balance = pv(payment, n/2, r)
-new_price = remaining_balance + 200
-r_new = 0.04/12 
+loan      = 20000 - 4000
+r         = 0.06/12
+n         = 48
+payment   = pmt(loan, n, r)
+balance   = pv(payment, n/2, r)
+new_price = balance + 200
+r_new     = 0.04/12 
 old_price = pv(payment, n/2, r_new)
 if (new_price < old_price)
  ans << "(yes, gain #{(old_price - new_price).round})"
