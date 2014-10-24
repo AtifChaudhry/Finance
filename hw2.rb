@@ -41,7 +41,7 @@ ans = []
 # (5 points) Carlos goes to the bank to take out a personal loan. The stated annual 
 # interest rate is 12%, but interest is compounded monthly and he will make monthly 
 # payments. The effective annual interest rate (EAR) of the loan is less than 12%. 
-ans << false
+ans << "false"
 
 # Question 2
 # (5 points) Gloria is 35 and trying to plan for retirement. She has put a budget
@@ -167,5 +167,19 @@ option_1 = 6000
 option_2 = pv(125, 48, rate) + disc(1000, 48, rate)
 ans << (option_1<option_2 ? option_1 : option_2).round
 
+# Extra Question
+# Suppose you are exactly 30 years old. You believe that you will be able to save for
+# the next 20 years, until you are 50. For 10 years following that, and till your 
+# retirement at age 60, you will have a spike in expenses and you will not be
+# able to save. If you want to guarantee yourself $8000 per month starting one month 
+# after your 60th birthday, how much should you save every month, for the next 20 years
+# starting at the end of next month. Assume your investments are expected to yield 8%
+# annually and you are likely to live till 80.
+r = 0.08/12
+n = (80-60)*12
+expenses = disc(pv(8000, n, r), (60-30)*12, r)
+saving = pmt(expenses, 20*12, r)
+ans << saving.round
+ 
 # Print answers from the ans array
 (1..ans.count).each {|i| puts i.to_s + ". "+ ans[i-1].to_s}
