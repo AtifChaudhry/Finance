@@ -150,18 +150,18 @@ ans << (option_1<option_2 ? option_1 : option_2).round
 r = 0.06/12
 n = 36
 
-# Option 1
+# Option (i)
 sticker_price   = 15000
 discount        = 1500
 option_1        = sticker_price - discount
 
-# Option 2
+# Option (ii)
 down_payment    = 500
 lease_payment   = 200
 residual        = 8000
 option_2        = down_payment + pv(lease_payment, n, r) + disc(residual, n, r)
 
-# Option 3
+# Option (iii)
 sticker_price   = 15000
 monthly_payment = sticker_price/n
 option_3        = pv(monthly_payment, n, r)
