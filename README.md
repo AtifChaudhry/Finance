@@ -1,5 +1,5 @@
 Introduction to Finance
-by Gautam Kaul
 =======
+by Gautam Kaul
 https://class.coursera.org/introfinance-007
 
