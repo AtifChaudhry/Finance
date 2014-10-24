@@ -27,7 +27,7 @@ assert (round(fv(100, 2, 0.06), 2) == round(comp(100,1,0.06)+comp(100,0,0.06), 2
 # pv - present value (of cash flow)
 # n - number of periods
 # r - interest rate (per period)
-def pmt(pv, n, r): return (pv*r)/(1.0 - 1/(1.0+r)**n)
+def pmt(pv, n, r): return (pv*r*(1.0+r)**n)/((1.0+r)**n - 1)
 assert (round(pmt(100, 1, 0.1), 2) == 110),                   "Test 3.a: Failed" 
 assert (round(pmt(pv(1000, 10, 0.06), 10, 0.06), 2) == 1000), "Test 3.b: Failed" 
 
