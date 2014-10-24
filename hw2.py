@@ -1,3 +1,6 @@
+#!/usr/bin/python
+
+# import the basic finace functions
 from basic import *
 
 # Collect answers in the ans array
@@ -131,7 +134,45 @@ option_1 = 6000
 option_2 = pv(125, 48, rate) + disc(1000, 48, rate)
 ans.append(rnd(option_1 if (option_1 < option_2) else option_2))
 
-# Extra Question
+# Extra HW Question
+# (15 points) You are interested in a new Ford Taurus. After visiting your Ford dealer, 
+# doing your research on the best leases available, you have three options. (i) Purchase 
+# the car for cash and receive a $1,500 cash rebate from Dealer A. The price of the car is 
+# $15,000. (ii) Lease the car from Dealer B. Under this option, you pay the dealer $500 now 
+# and $200 a month for each of the next 36 months (the first $200 payment occurs 1 month 
+# from today). After 36 months you may buy the car for $8,000. (iii) Purchase the car from 
+# Dealer C who will lend you the entire purchase price of the car for a zero interest 
+# 36-month loan with monthly payments. The car price is $15,000. Suppose the market interest 
+# rate is 6%. What is the net cost today of the cheapest option? 
+
+# Market interest rate (monthly) and loan duration (months)
+r = 0.06/12
+n = 36
+
+# Option (i)
+sticker_price   = 15000
+discount        = 1500
+option_1        = sticker_price - discount
+
+# Option (ii)
+down_payment    = 500
+lease_payment   = 200
+residual        = 8000
+option_2        = down_payment + pv(lease_payment, n, r) + disc(residual, n, r)
+
+# Option (iii)
+sticker_price   = 15000
+monthly_payment = sticker_price/n
+option_3        = pv(monthly_payment, n, r)
+
+if (option_1 < option_2 and option_1 < option_3):
+  ans.append("Option 1 (Dealer A): %s" % rnd(option_1))
+elif (option_2 < option_3):
+  ans.append("Option 2 (Dealer B): %s" % rnd(option_2))
+else:
+  ans.append("Option 3 (Dealer C): %s" % rnd(option_3))
+
+# Class Problem
 # Suppose you are exactly 30 years old. You believe that you will be able to save for
 # the next 20 years, until you are 50. For 10 years following that, and till your 
 # retirement at age 60, you will have a spike in expenses and you will not be
@@ -139,11 +180,10 @@ ans.append(rnd(option_1 if (option_1 < option_2) else option_2))
 # after your 60th birthday, how much should you save every month, for the next 20 years
 # starting at the end of next month. Assume your investments are expected to yield 8%
 # annually and you are likely to live till 80.
-r = 0.08/12
-n = (80-60)*12
-expenses = disc(pv(8000, n, r), (60-30)*12, r)
-saving = pmt(expenses, 20*12, r)
-ans.append(rnd(saving))
+r                = 0.08/12
+expenses         = disc(pv(8000, (80-60)*12, r), (60-30)*12, r)
+saving_per_month = pmt(expenses, (50-30)*12, r)
+ans.append(rnd(saving_per_month))
  
 # Print answers from the ans array
 for i in range(len(ans)): print str(i+1) + ". " + str(ans[i])

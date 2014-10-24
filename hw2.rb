@@ -1,38 +1,7 @@
-# -*- coding: utf-8 -*-
-#####################################################################################
-#                                  Finance functions                                #
-#####################################################################################
+#!/usr/bin/ruby
 
-# Basic compounding and discounting
-#  c - amount (single)
-#  n - number of periods
-#  r - interest rate (per period)
-def compound(c, n, r); c * ((1+r)**n); end
-def discount(c, n, r); c / ((1+r)**n); end
-def comp(c,n,r); compound(c,n,r); end
-def disc(c,n,r); discount(c,n,r); end
-raise "Test 1.a: Failed" if comp(1, 1, 1)!=2 or disc(2, 1, 1)!=1 
-raise "Test 1.b: Failed" if disc(comp(9, 7, 0.1), 7, 0.1) != 9
-
-# Computes the PV and FV of a leveled cache flow (annunity).
-#  c - payment (fixed per period)
-#  n - number of periods
-#  r - interest rate (per period)
-def pv(c, n, r); c*(1.0/r)*(1 - (1.0/(1+r)**n)); end
-def fv(c, n, r); comp(pv(c, n, r), n, r); end
-raise "Test 2.a: Failed" if pv(1000, 10, 0.05) != disc(fv(1000, 10, 0.05), 10, 0.05)
-raise "Test 2.b: Failed" if pv(100, 1, 0.06).round(2) != disc(100, 1, 0.06).round(2)
-raise "Test 2.c: Failed" if fv(100, 2, 0.06).round(2) != (comp(100,1,0.06)+comp(100,0,0.06)).round(2)
-
-# Computes the payment for a leveled cash flow (annuity).
-#  pv - present value (of cash flow)
-#  n  - number of periods
-#  r  - interest rate (per period)
-def pmt(pv, n, r); (pv*r)/(1.0 - 1/(1.0+r)**n); end
-raise "Test 3.a: Failed" if pmt(100, 1, 0.1).round(2) != 110
-raise "Test 3.b: Failed" if pmt(pv(1000, 10, 0.06), 10, 0.06).round(2) != 1000
-
-#####################################################################################
+# import the basic finace functions
+require './basic.rb'
 
 # Collect answers in the ans array
 ans = []
@@ -59,7 +28,7 @@ ans <<  fv(c, n, r).round
 # has asked him to guess what his account is worth given that they have invested 
 # $1,000 every year in the account starting on his 5th birthday and have just made one. 
 # The interest rate on the account has been 3.5% annually. 
-# How much is Mohammad’s account worth today? 
+# How much is Mohammad's account worth today? 
 n = 21 - 5 + 1
 r = 0.035
 c = 1000
@@ -167,7 +136,45 @@ option_1 = 6000
 option_2 = pv(125, 48, rate) + disc(1000, 48, rate)
 ans << (option_1<option_2 ? option_1 : option_2).round
 
-# Extra Question
+# Extra HW Question
+# (15 points) You are interested in a new Ford Taurus. After visiting your Ford dealer, 
+# doing your research on the best leases available, you have three options. (i) Purchase 
+# the car for cash and receive a $1,500 cash rebate from Dealer A. The price of the car is 
+# $15,000. (ii) Lease the car from Dealer B. Under this option, you pay the dealer $500 now 
+# and $200 a month for each of the next 36 months (the first $200 payment occurs 1 month 
+# from today). After 36 months you may buy the car for $8,000. (iii) Purchase the car from 
+# Dealer C who will lend you the entire purchase price of the car for a zero interest 
+# 36-month loan with monthly payments. The car price is $15,000. Suppose the market interest 
+# rate is 6%. What is the net cost today of the cheapest option? 
+# Market interest rate (monthly) and loan duration (months)
+r = 0.06/12
+n = 36
+
+# Option 1
+sticker_price   = 15000
+discount        = 1500
+option_1        = sticker_price - discount
+
+# Option 2
+down_payment    = 500
+lease_payment   = 200
+residual        = 8000
+option_2        = down_payment + pv(lease_payment, n, r) + disc(residual, n, r)
+
+# Option 3
+sticker_price   = 15000
+monthly_payment = sticker_price/n
+option_3        = pv(monthly_payment, n, r)
+
+if (option_1 < option_2 and option_1 < option_3)
+  ans << "Option 1 (Dealer A): #{option_1.round}"
+elsif (option_2 < option_3)
+  ans << "Option 2 (Dealer B): #{option_2.round}"
+else
+  ans << "Option 3 (Dealer C): #{option_3.round}" 
+end
+
+# Class Problem
 # Suppose you are exactly 30 years old. You believe that you will be able to save for
 # the next 20 years, until you are 50. For 10 years following that, and till your 
 # retirement at age 60, you will have a spike in expenses and you will not be
@@ -176,10 +183,9 @@ ans << (option_1<option_2 ? option_1 : option_2).round
 # starting at the end of next month. Assume your investments are expected to yield 8%
 # annually and you are likely to live till 80.
 r = 0.08/12
-n = (80-60)*12
-expenses = disc(pv(8000, n, r), (60-30)*12, r)
-saving = pmt(expenses, 20*12, r)
-ans << saving.round
+expenses         = disc(pv(8000, (80-60)*12, r), (60-30)*12, r)
+saving_per_month = pmt(expenses, (50-30)*12, r)
+ans << saving_per_month.round
  
 # Print answers from the ans array
 (1..ans.count).each {|i| puts i.to_s + ". "+ ans[i-1].to_s}
