@@ -30,6 +30,14 @@ assert (round(fv(100, 2, 0.06), 2) == round(comp(100,1,0.06)+comp(100,0,0.06), 2
 def pmt(pv, n, r): return (pv*r*(1.0+r)**n)/((1.0+r)**n - 1)
 assert (round(pmt(100, 1, 0.1), 2) == 110),                   "Test 3.a: Failed" 
 assert (round(pmt(pv(1000, 10, 0.06), 10, 0.06), 2) == 1000), "Test 3.b: Failed" 
+# Net Present Value (NPV) of a cash flow (the initial investment is cf[0])
+# cf - cash flow stream (including any initial investment < 0)
+# r  - the discount rate
+def npv(cf, r):
+ pv = 0.0
+ for n in range(len(cf)): pv += disc(cf[n], n, r)
+ return pv
+assert (round(npv([-100, 110], 0.1),2) == 0), "Test 4.a: Failed"
 
 # Composes int() and round()
 def rnd(x): return int(round(x))
