@@ -31,4 +31,17 @@ def pmt(pv, n, r); (pv*r)/(1.0 - 1/(1.0+r)**n); end
 raise "Test 3.a: Failed" if pmt(100, 1, 0.1).round(2) != 110
 raise "Test 3.b: Failed" if pmt(pv(1000, 10, 0.06), 10, 0.06).round(2) != 1000
 
+# Net Present Value (NPV) of a cash flow (the initial investment is cf[0])
+#  cf - cash flow stream (including any initial investment < 0)
+#  r  - the discount rate
+# Example:
+#  The CF for an intial investment of $100, which pays $0 in the first
+#  period, and then pays $150 in the second period will be [-100, 0, 150].
+def npv(cf, r)
+ pv = 0.0
+ cf.each_with_index {|c, n| pv += disc(c, n, r)}
+ pv
+end
+raise "Test 4.a: Failed" if npv([-100, 110], 0.1).round(2) != 0
+
 #####################################################################################
