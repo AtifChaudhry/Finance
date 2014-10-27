@@ -18,4 +18,4 @@ print "The NPV is $%i, so %slaunch the project." % (npv, "don't " if npv < 0 els
 # rate at which both have the same NPV).
 inv_a = [-400, 250, 280]
 inv_b = [-500, 320, 340]
-print "crossover rate = %.2f" % round(fin.cor(inv_a, inv_b), 2)
+print "crossover rate = %.2f" % round(fin.cxr(inv_a, inv_b), 2)
