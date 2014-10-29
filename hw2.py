@@ -186,4 +186,4 @@ saving_per_month = fi.pmt(expenses, (50-30)*12, r)
 ans.append(fi.rnd(saving_per_month))
  
 # Print answers from the ans array
-for i in range(len(ans)): print str(i+1) + ". " + str(ans[i])
+for i in range(len(ans)): print "%2s"%str(i+1) + ". " + str(ans[i])

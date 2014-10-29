@@ -120,4 +120,4 @@ for i in range(10):
 ans.append(fi.rnd(cost_total))
 
 # Print answers from the ans array
-for i in range(len(ans)): print str(i+1) + ". " + str(ans[i])
+for i in range(len(ans)): print "%2s"%str(i+1) + ". " + str(ans[i])

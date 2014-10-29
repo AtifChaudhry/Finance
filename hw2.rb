@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 # import the basic finace functions
-require './basic.rb'
+require './finance_formulas.rb'
 
 # Collect answers in the ans array
 ans = []
@@ -188,4 +188,4 @@ saving_per_month = pmt(expenses, (50-30)*12, r)
 ans << saving_per_month.round
  
 # Print answers from the ans array
-(1..ans.count).each {|i| puts i.to_s + ". "+ ans[i-1].to_s}
+(1..ans.count).each {|i| puts i.to_s.rjust(2) + ". "+ ans[i-1].to_s}

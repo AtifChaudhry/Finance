@@ -156,6 +156,8 @@ ans.append(fi.rnd(npv))
 # The interest/discount rate is 6%. What is the NPV of her graduate education? (Note: All cash 
 # flows except tuition payments occur at the end of the year.)
 
+ans.append("<Missing!>")
+
 # Question 9
 # (15 points) Reggie has just taken over management of a family business. He wants to make sure 
 # that it makes financial sense to keep the business going. He could sell the building today for 
@@ -164,6 +166,8 @@ ans.append(fi.rnd(npv))
 # beginning one year from now). The discount/interest rate is 10%? What are the NPV and IRR of 
 # this decision? (Answer format ($xyz; ab.cd%) )
 
+ans.append("<Missing!>")
+
 # Question 10
 # (15 points) Sairah purchased an investment property for $350,000, 3 years ago. The after-tax 
 # cashfow of the property has been $35,000 per year to date, but market conditions have improved 
@@ -171,5 +175,7 @@ ans.append(fi.rnd(npv))
 # these are year end cashflows). The annual cost of capital (or cap rate) for this area is 9%. 
 # What is the value of the property today?
 
+ans.append("<Missing!>")
+
 # Print answers from the ans array
-for i in range(len(ans)): print str(i+1) + ". " + str(ans[i])
+for i in range(len(ans)): print "%2s"%str(i+1) + ". " + str(ans[i])
