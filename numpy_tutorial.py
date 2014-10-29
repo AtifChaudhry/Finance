@@ -27,6 +27,8 @@ print mat_r2_4
 mat_r4_2 = mat_r2_4.reshape(4,2)
 print mat_r4_2
 print mat_r4_2.reshape(1, 8)[0]
+print mat_r4_2.shape
+print mat_r4_2.dtype
 
 ## Slice/Dice Arrays
 mat_sq3 = np.arange(1,10).reshape(3,3)
@@ -92,3 +94,11 @@ print "Clamped\n", clamped
 print "mat x I = \n", np.dot(mat_sq3, np.array([[1,0,0], [0,1,0], [0,0,1]]))
 print "mat x mat = \n", np.dot(mat_sq3, mat_sq3)
 print "vec . vec = %i" % np.dot(np.arange(1,10), 10-np.arange(1,10))
+
+####
+## Exercise: Write a function submatricies which takes in a matrix (2d array)
+## and returns a list of all submatricies (including the original). The matricies
+## should be listed in increasing order of size.
+####
+def submatricies(m):
+    return []

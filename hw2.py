@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # import the basic finace functions
-from basic import *
+import finance_formulas as fi
 
 # Collect answers in the ans array
 ans = []
@@ -20,7 +20,7 @@ ans.append("false")
 n = 65 - 35
 r = 0.07
 c = 4800
-ans.append(rnd(fv(c, n, r)))
+ans.append(fi.rnd(fi.fv(c, n, r)))
 
 # Question 3
 # (5 points) Mohammad has just turned 21 and now has access to the money his parents 
@@ -32,7 +32,7 @@ ans.append(rnd(fv(c, n, r)))
 n = 21 - 5 + 1
 r = 0.035
 c = 1000
-ans.append(rnd(fv(c, n, r)))
+ans.append(fi.rnd(fi.fv(c, n, r)))
 
 # Question 4
 # (5 points) Marcel has just graduated from college and has found a job that will pay 
@@ -43,7 +43,7 @@ ans.append(rnd(fv(c, n, r)))
 n = 5
 r = 0.03
 c = 25000
-ans.append(rnd(pv(c, n, r)))
+ans.append(fi.rnd(fi.pv(c, n, r)))
 
 # Question 5
 # (10 points) Rachna is considering a life insurance plan that will require her to 
@@ -54,7 +54,7 @@ ans.append(rnd(pv(c, n, r)))
 c = 200
 n = 40
 r = 0.04
-ans.append(rnd(pv(c, n, r)))
+ans.append(fi.rnd(fi.pv(c, n, r)))
 
 # Question 6
 # (10 points) Roxanne is in the market for a new house, and she has found a house 
@@ -64,8 +64,8 @@ ans.append(rnd(pv(c, n, r)))
 # for 15 years, though payments are monthly. What is the interest component of Roxanne's
 # first monthly payment? 
 loan = 0.8 * 250000
-r = 0.06/12
-ans.append(rnd(loan * r))
+r    = 0.06/12
+ans.append(fi.rnd(loan * r))
 
 # Question 7
 # (15 points) Baako has invested $75,000 in a trust fund at 9% for his child's college 
@@ -73,9 +73,9 @@ ans.append(rnd(loan * r))
 # of year 7. What will be the amount that will be left over in the education fund at 
 # the end of year 10, just after the child has withdrawn the fourth time? 
 r = 0.09
-investment = comp(75000, 10, r)
-education  = fv(30000, 4, r)
-ans.append(rnd(investment - education))
+investment = fi.comp(75000, 10, r)
+education  = fi.fv(30000, 4, r)
+ans.append(fi.rnd(investment - education))
 
 # Question 8
 # (15 points) Two years ago Abilia purchased a $10,000 car; she paid $2000 down and 
@@ -88,15 +88,15 @@ ans.append(rnd(investment - education))
 bal = 10000 - 2000
 r_8 = 0.08/12
 n_8 = 60
-p_8 = pmt(bal, n_8, r_8)
+p_8 = fi.pmt(bal, n_8, r_8)
 n_6 = 3*12
-bal = pv(p_8, n_6, r_8)
+bal = fi.pv(p_8, n_6, r_8)
 r_6 = 0.06/12
-p_6 = pmt(bal, n_6, r_6)
+p_6 = fi.pmt(bal, n_6, r_6)
 if (p_6 < p_8):
- ans.append("(yes, %s)" % str(rnd(p_8-p_6)))
+ ans.append("(yes, %s)" % str(fi.rnd(p_8-p_6)))
 else:
- ans.append("(no, %s)"  % str(rnd(p_6-p_8)))
+ ans.append("(no, %s)"  % str(fi.rnd(p_6-p_8)))
 
 # Question 9
 # (15 points) Two years ago, you purchased a $20,000 car, putting $4,000 down and 
@@ -110,15 +110,15 @@ else:
 loan      = 20000 - 4000
 r         = 0.06/12
 n         = 48
-payment   = pmt(loan, n, r)
-balance   = pv(payment, n/2, r)
+payment   = fi.pmt(loan, n, r)
+balance   = fi.pv(payment, n/2, r)
 new_price = balance + 200
 r_new     = 0.04/12 
-old_price = pv(payment, n/2, r_new)
+old_price = fi.pv(payment, n/2, r_new)
 if (new_price < old_price):
- ans.append("(yes, gain %s)" % str(rnd(old_price - new_price)))
+ ans.append("(yes, gain %s)" % str(fi.rnd(old_price - new_price)))
 else:
- ans.append("(no, lose %s)"  % str(rnd(new_price - old_price)))
+ ans.append("(no, lose %s)"  % str(fi.rnd(new_price - old_price)))
 
 # Question 10
 # (15 points) You have just started your first job and you want to have the basic 
@@ -129,10 +129,10 @@ else:
 # $6,000 to be repaid monthly over 4 years.(ii) Rent-to-buy from the same store. 
 # The monthly rental is $125 for 48 months and then you pay $1,000 to own all the 
 # appliances. What is the net cost today of the cheapest option? 
-rate = 0.05/12
+rate     = 0.05/12
 option_1 = 6000
-option_2 = pv(125, 48, rate) + disc(1000, 48, rate)
-ans.append(rnd(option_1 if (option_1 < option_2) else option_2))
+option_2 = fi.pv(125, 48, rate) + fi.disc(1000, 48, rate)
+ans.append(fi.rnd(option_1 if (option_1 < option_2) else option_2))
 
 # Extra HW Question
 # (15 points) You are interested in a new Ford Taurus. After visiting your Ford dealer, 
@@ -158,19 +158,19 @@ option_1        = sticker_price - discount
 down_payment    = 500
 lease_payment   = 200
 residual        = 8000
-option_2        = down_payment + pv(lease_payment, n, r) + disc(residual, n, r)
+option_2        = down_payment + fi.pv(lease_payment, n, r) + fi.disc(residual, n, r)
 
 # Option (iii)
 sticker_price   = 15000
 monthly_payment = sticker_price/n
-option_3        = pv(monthly_payment, n, r)
+option_3        = fi.pv(monthly_payment, n, r)
 
 if (option_1 < option_2 and option_1 < option_3):
-  ans.append("Option 1 (Dealer A): %s" % rnd(option_1))
+  ans.append("Option 1 (Dealer A): %s" % fi.rnd(option_1))
 elif (option_2 < option_3):
-  ans.append("Option 2 (Dealer B): %s" % rnd(option_2))
+  ans.append("Option 2 (Dealer B): %s" % fi.rnd(option_2))
 else:
-  ans.append("Option 3 (Dealer C): %s" % rnd(option_3))
+  ans.append("Option 3 (Dealer C): %s" % fi.rnd(option_3))
 
 # Class Problem
 # Suppose you are exactly 30 years old. You believe that you will be able to save for
@@ -181,9 +181,9 @@ else:
 # starting at the end of next month. Assume your investments are expected to yield 8%
 # annually and you are likely to live till 80.
 r                = 0.08/12
-expenses         = disc(pv(8000, (80-60)*12, r), (60-30)*12, r)
-saving_per_month = pmt(expenses, (50-30)*12, r)
-ans.append(rnd(saving_per_month))
+expenses         = fi.disc(fi.pv(8000, (80-60)*12, r), (60-30)*12, r)
+saving_per_month = fi.pmt(expenses, (50-30)*12, r)
+ans.append(fi.rnd(saving_per_month))
  
 # Print answers from the ans array
 for i in range(len(ans)): print str(i+1) + ". " + str(ans[i])

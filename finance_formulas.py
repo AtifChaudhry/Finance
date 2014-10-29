@@ -17,8 +17,8 @@ assert (disc(comp(9, 7, 0.1), 7, 0.1) == 9),        "Test 1.b: Failed"
 ##  c - payment (fixed per period)
 ##  n - number of periods
 ##  r - interest rate (per period)
-def pv(c, n, r): return c*(1.0/r)*(1 - (1.0/(1+r)**n))
-def fv(c, n, r): return comp(pv(c, n, r), n, r)
+def pv(c, n, r, g=0): return c*(1.0/(r-g))*(1 - ((1.0+g)**n)/((1.0+r)**n))
+def fv(c, n, r, g=0): return comp(pv(c, n, r, g), n, r)
 assert (pv(1000, 10, 0.05) == disc(fv(1000, 10, 0.05), 10, 0.05)),                  "Test 2.a: Failed" 
 assert (round(pv(100, 1, 0.06), 2) == round(disc(100, 1, 0.06), 2)),                "Test 2.b: Failed" 
 assert (round(fv(100, 2, 0.06), 2) == round(comp(100,1,0.06)+comp(100,0,0.06), 2)), "Test 2.c: Failed" 
@@ -47,7 +47,7 @@ import numpy as np
 
 ## Internal Rate of Return (IRR)
 ##  cf - cash flow stream (including any initial investment < 0)
-def irr(cf):  np.irr(np.array(cf))
+irr = np.irr
 
 ## Crossover Rate - The rate at which the NPV of the two 
 ## cash flow streams is equal.

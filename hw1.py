@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # import the basic finace functions
-from basic import *
+import finance_formulas as fi
 
 # Collect answers in the ans array
 ans = []
@@ -12,14 +12,14 @@ ans.append("true")
 
 # Question 2
 # (5 points) At an interest rate of 10% it is better to have $100 today than $120 in 2 years.
-ans.append("true" if 100 > disc(c=120, n=2, r=0.1) else "false")
+ans.append("true" if 100 > fi.disc(c=120, n=2, r=0.1) else "false")
 
 # Question 3
 # (5 points) Megan wants to buy a designer handbag and plans to earn the money babysitting. 
 # Suppose the interest rate is 6% and she is willing to wait one year to purchase the bag. 
 # How much babysitting money (to the nearest whole dollar) will she need to earn today to 
 # buy the bag for $400 one year from now?
-ans.append(rnd(disc(c=400, n=1, r=0.06)))
+ans.append(fi.rnd(fi.disc(c=400, n=1, r=0.06)))
 
 # Question 4
 # (10 points) Johnny and Darren both earn $100 working on their respective neighbors' big 
@@ -28,8 +28,8 @@ ans.append(rnd(disc(c=400, n=1, r=0.06)))
 # savings account pays 3% interest. They both take their money out after 5 years. How much 
 # more money does Darren have than Johnny?
 johnny = 100
-darren = comp(c=100, n=5, r=0.03)
-ans.append(rnd(darren - johnny))
+darren = fi.comp(c=100, n=5, r=0.03)
+ans.append(fi.rnd(darren - johnny))
 
 # Question 5
 # (10 points) Don has just received a cash gift of $50,000 from his rich eccentric uncle. 
@@ -37,7 +37,7 @@ ans.append(rnd(darren - johnny))
 # will begin college in 10 years and Don's financial advisor says that she can earn 7% 
 # interest on an investment in a special college fund. How much will Don have in the fund 
 # when Cynthia begins college? 
-ans.append(rnd(comp(c=50000, n=10, r=0.07)))
+ans.append(fi.rnd(fi.comp(c=50000, n=10, r=0.07)))
 
 # Question 6
 # (10 points) Bridgette's grandparents opened a savings account for her and placed $500 
@@ -45,7 +45,7 @@ ans.append(rnd(comp(c=50000, n=10, r=0.07)))
 # has her heart set on a new karaoke machine. The machine costs $150. How much less will 
 # the account be worth in 8 years if she buys the karaoke machine now versus leaving the 
 # account untouched? 
-ans.append(rnd(comp(c=150, n=8, r=0.035)))
+ans.append(fi.rnd(fi.comp(c=150, n=8, r=0.035)))
 
 # Question 7
 # (10 points) The Johnson family is worried about their ability to pay college tuition 
@@ -56,9 +56,9 @@ ans.append(rnd(comp(c=150, n=8, r=0.035)))
 # that is pay $9,500 per year of college. Should they pre-pay Chloe's first year now 
 # or keep the money invested and pay the tuition 7 years from now? How much are they 
 # saving in FV terms with this decision?
-tution_future = comp(c=9500, n=7, r=0.07)
-saving_future = comp(c=9500, n=7, r=0.06)
-ans.append("Pre-pay; %i" % rnd(tution_future - saving_future))
+tution_future = fi.comp(c=9500, n=7, r=0.07)
+saving_future = fi.comp(c=9500, n=7, r=0.06)
+ans.append("Pre-pay; %i" % fi.rnd(tution_future - saving_future))
 
 # Question 8
 # (15 points) Juan has $100,000 to invest and he has narrowed down his decision to 
@@ -67,9 +67,12 @@ ans.append("Pre-pay; %i" % rnd(tution_future - saving_future))
 # the entire $100,000. Which option produces the best result for Juan and what is the 
 # benefit over the lesser option? Assume that the $90,000 not invested in Option A 
 # would be placed in a safe deposit box earning no interest.
-option_a = comp(c=10000, n=4, r=0.6) + 90000
-option_b = comp(c=100000, n=4, r=0.12)
-ans.append("Option %s; %i" % (("A" if option_a > option_b else "B"), rnd(abs(option_a - option_b))))
+option_a = fi.comp(c=10000, n=4, r=0.6) + 90000
+option_b = fi.comp(c=100000, n=4, r=0.12)
+if option_a > option_b:
+  ans.append("Option A; %i" % fi.rnd(option_a - option_b))
+else:
+  ans.append("Option B; %i" % fi.rnd(option_b - option_a))
  
 # Question 9
 # (15 points) Jessica is in the market for a new car. She has narrowed her search down 
@@ -88,14 +91,14 @@ r = 0.06
 # Model A
 price_a  = 20000
 resale_a = price_a * 0.5
-cost_a   = price_a - disc(resale_a, n, r)
+cost_a   = price_a - fi.disc(resale_a, n, r)
 
 # Model B
 price_b  = 18000
 resale_b = price_b * 0.25
-cost_b   = price_b - disc(resale_b, n, r)
+cost_b   = price_b - fi.disc(resale_b, n, r)
 
-ans.append("Model %s; %i" % (("A" if cost_a < cost_b else "B"), rnd(abs(cost_a - cost_b))))
+ans.append("Model %s; %i" % (("A" if cost_a < cost_b else "B"), fi.rnd(abs(cost_a - cost_b))))
 
 # Question 10
 # (15 points) Christine is a new homebuyer. She wants to make sure that she incorporates 
@@ -112,9 +115,9 @@ cost_inc_rate = 0.06
 cost_initial  = 1590
 cost_total    = 0
 for i in range(10):
-  cost_current = comp(cost_initial, i, cost_inc_rate)   
-  cost_total  += disc(cost_current, i+1, r)
-ans.append(rnd(cost_total))
+  cost_current = fi.comp(cost_initial, i, cost_inc_rate)   
+  cost_total  += fi.disc(cost_current, i+1, r)
+ans.append(fi.rnd(cost_total))
 
 # Print answers from the ans array
 for i in range(len(ans)): print str(i+1) + ". " + str(ans[i])
