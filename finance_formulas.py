@@ -58,4 +58,9 @@ def cxr(cf1, cf2): np.irr(np.array(cf1) - np.array(cf2))
 ## Composes int() and round()
 def rnd(x): return int(round(x))
 
+## Print an array of string as numbered lines.
+def print_lines(a):
+ for i in range(len(a)): 
+  print "%2s. %s" % (str(i+1), str(a[i]))
+
 #####################################################################################

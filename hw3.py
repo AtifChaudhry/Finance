@@ -130,7 +130,6 @@ ans.append(fi.rnd(npv))
 # but has a cash flow of $200,000 in year 1 that grows at 3% per year till year 20? Similar
 # investments earn 7.5% per year.
 
-# Confirmation
 assert fi.rnd(fi.pv(100, 10, r=0.07, g=0.05)) == 860, "Confirmation failed!"
 
 cost = 1e6   # $1,000,000
@@ -178,4 +177,4 @@ ans.append("<Missing!>")
 ans.append("<Missing!>")
 
 # Print answers from the ans array
-for i in range(len(ans)): print "%2s"%str(i+1) + ". " + str(ans[i])
+fi.print_lines(ans)
