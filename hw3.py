@@ -190,7 +190,7 @@ ans.append("(%d; %.2f%%)" % (fi.rnd(npv), round(irr*100, 2)))
 # these are year end cashflows). The annual cost of capital (or cap rate) for this area is 9%. 
 # What is the value of the property today?
 
-# Approach 1:
+# Approach:
 #  Setup a single cashflow (starting with purchase price, 3 years of 
 #  cash flow, and the 25 years of higher cash flows) and then compute 
 #  the npv of that cf. Finally, move that npv forward three years to 
@@ -205,19 +205,9 @@ cash_flow_init = [return_init] * n_init
 cash_flow_rest = [return_rest] * n_rest  
 cf             = [-purchase_price] + cash_flow_init + cash_flow_rest
 npv            = fi.npv(cf, r)
-npv_today_1    = fi.comp(npv, n_init, r)
+npv_today      = fi.comp(npv, n_init, r)
 
-# Approach 2:
-#  Compute the npv of the of first three years, then move that to the 
-#  present, and finally create a new cf with the previous brought-forward
-#  npv plus the 25 future payments. Using this new cf, compute the npv.
-cf          = [-purchase_price] + cash_flow_init
-npv         = fi.comp(fi.npv(cf, r), n_init, r)
-cf          = [npv] + cash_flow_rest
-npv_today_2 = fi.npv(cf, r)
-assert fi.rnd(npv_today_1) == fi.rnd(npv_today_2), "Q10: Approaches 1 & 2 disagree"
-
-ans.append(fi.rnd(npv_today_1))
+ans.append(fi.rnd(npv_today))
 
 # Print answers from the ans array
 fi.print_lines(ans)
