@@ -53,7 +53,17 @@ ans.append(round(irr*100, 2))
 # DISCOUNTED payback period in years? Discount future cash flows before calculating payback and 
 # round to a whole year.)
 
-ans.append("<Missing!>")
+r              = 0.06  # 6%/yr
+hybrid_premium = 12e3  # $12,000 hybrid price premimum
+federal_credit = 7.5e3 # $7,500 one-time federal tax credit
+gas_savings    = 1.2e3 # $1,200/yr   
+year           = 0
+cost           = -hybrid_premium + fi.disc(federal_credit, 1, r) 
+while (cost < 0):
+    year += 1
+    cost += fi.disc(gas_savings, year, r)
+
+ans.append(year)
 
 # Question 4
 # (10 points) In high school Jeff often made money in the summer by mowing lawns in the 
