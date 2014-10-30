@@ -14,7 +14,7 @@ ans = []
 # are 3, 6 and 15 months from now. Assume a 6% cost of capital. Assume there is no risk of 
 # default, and that compounding is monthly. What is the NPV of the loan?
 
-r = 0.06/12
+r   = 0.06/12
 npv = -1200 + fi.disc(450, 3, r) + fi.disc(450, 6, r) + fi.disc(450, 15, r)
 
 ans.append(fi.rnd(npv))
@@ -27,7 +27,7 @@ ans.append(fi.rnd(npv))
 # two decimal places, and leave off the % sign. For example, if your answer is 13.97% you should 
 # enter it as 13.97 NOT 0.14 nor 14)
 
-cf = [ 
+cf  = [ 
  #     CF  # Year
    -50000, #    0
      2500, #    1
@@ -124,8 +124,8 @@ purchase_price    = 7.2e6  # $7.2M
 revenue_2012      = 50e6   # $50M
 revenue_inflation = 0.03   # 3%/yr
 revenue_stream    = [fi.disc(revenue_2012, x-1, revenue_inflation) for x in range(n,0,-1)] 
-cf = [-purchase_price] + revenue_stream
-npv = fi.npv(cf, r)
+cf                = [-purchase_price] + revenue_stream
+npv               = fi.npv(cf, r)
 
 ans.append(fi.rnd(npv))
 
@@ -172,7 +172,7 @@ working_years    = retirement_age - current_age
 yearly_raise     = 0.03     # 3%/yr
 
 # The PV of attending college
-sal_college      = 85e3     # $85,000
+sal_college      = 85e3     # $85,000/yr
 college_duration = 2        # 2 years
 college_costs_cf = [
  -40e3,                     # Tution = -$40,000
@@ -184,7 +184,7 @@ pv_college_earn  = fi.disc(fi.pv(sal_college, working_years-college_duration, r,
 pv_college       = pv_college_cost + pv_college_earn
 
 # The oppurtunity cost (i.e. the PV of skipping college)
-sal_no_college   = 55e3     # $55,000
+sal_no_college   = 55e3     # $55,000/yr
 oppurtunity_cost = fi.pv(sal_no_college, working_years, r, yearly_raise)
 
 # The NPV of attending college
@@ -221,8 +221,8 @@ ans.append("(%d; %.2f%%)" % (fi.rnd(npv), round(irr*100, 2)))
 
 # Approach:
 #  Setup a single cashflow (starting with purchase price, 3 years of 
-#  cash flow, and the 25 years of higher cash flows) and then compute 
-#  the npv of that cf. Finally, move that npv forward three years to 
+#  cash flows (low), and the 25 years of cash flows(high)) and then 
+#  compute the npv of that cf. Finally, move that npv forward three years to 
 #  today.
 r              = 0.09             # 9%/yr => cap. rate
 purchase_price = 350e3            # $350,000
