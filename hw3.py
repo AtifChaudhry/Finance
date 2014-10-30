@@ -155,13 +155,32 @@ ans.append(fi.rnd(npv))
 # The interest/discount rate is 6%. What is the NPV of her graduate education? (Note: All cash 
 # flows except tuition payments occur at the end of the year.)
 
+r                = 0.06      #6%/yr discount rate
+current_age      = 28
+retirement_age   = 60
+working_years    = retirement_age - current_age
+yearly_raise     = 0.03     # 3%/yr
 
-# 275996
-# 174481
-# 229016
-# 231472 
+# The PV of attending college
+sal_college      = 85e3     # $85,000
+college_duration = 2        # 2 years
+college_costs_cf = [
+ -40e3,                     # Tution = -$40,000
+ -42e3 + -8e3 + 18e3,       # Tution = -$42,000 + Living Expenses = -$8,000 + Intership = $18,000 
+ -9e3                       # Living Expenses = -$9,000
+]
+pv_college_cost  = fi.npv(college_costs_cf, r)
+pv_college_earn  = fi.disc(fi.pv(sal_college, working_years-college_duration, r, yearly_raise), college_duration, r)
+pv_college       = pv_college_cost + pv_college_earn
 
-ans.append("<Missing!>")
+# The oppurtunity cost (i.e. the PV of skipping college)
+sal_no_college   = 55e3     # $55,000
+oppurtunity_cost = fi.pv(sal_no_college, working_years, r, yearly_raise)
+
+# The NPV of attending college
+npv              = pv_college - oppurtunity_cost
+
+ans.append(fi.rnd(npv))
 
 # Question 9
 # (15 points) Reggie has just taken over management of a family business. He wants to make sure 
