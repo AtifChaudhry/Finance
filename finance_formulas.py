@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 #####################################################################################
 ##                                  Finance functions                              ##
 #####################################################################################
@@ -17,6 +19,7 @@ assert (disc(comp(9, 7, 0.1), 7, 0.1) == 9),        "Test 1.b: Failed"
 ##  c - payment (fixed per period)
 ##  n - number of periods
 ##  r - interest rate (per period)
+##  g - (opional) growth rate (per period)
 def pv(c, n, r, g=0): return c*(1.0/(r-g))*(1 - ((1.0+g)**n)/((1.0+r)**n))
 def fv(c, n, r, g=0): return comp(pv(c, n, r, g), n, r)
 assert (pv(1000, 10, 0.05) == disc(fv(1000, 10, 0.05), 10, 0.05)),                  "Test 2.a: Failed" 
@@ -62,5 +65,26 @@ def rnd(x): return int(round(x))
 def print_lines(a):
  for i in range(len(a)): 
   print "%2s. %s" % (str(i+1), str(a[i]))
+
+####
+## Example:
+##  How to construct leveled and growth cashflows using list comprehensions,
+##  and then computing their NPV.
+##
+if __name__ == "__main__":
+ import finance_formulas as fi
+
+ n    = 7    # 7 years
+ r    = 0.10 # 10%/yr
+ g    = 0.03 # 3%/yr
+ pmt  = 1000 # $1,000/yr
+ pv   = 3000 # $3,000
+ cf_level  = [-pv] + ([pmt] * n)
+ cf_growth = [-pv] + [fi.rnd(fi.comp(pmt, i, g)) for i in range(n)]
+ print "Level  Cashflows =", cf_level
+ print "NPV(Level Cashflows) = $%d" % fi.npv(cf_level, r)
+ print "Growth Cashflows =", cf_growth
+ print "NPV(Growth Cashflows) = $%d" % fi.npv(cf_growth, r)
+
 
 #####################################################################################

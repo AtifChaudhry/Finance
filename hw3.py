@@ -155,6 +155,12 @@ ans.append(fi.rnd(npv))
 # The interest/discount rate is 6%. What is the NPV of her graduate education? (Note: All cash 
 # flows except tuition payments occur at the end of the year.)
 
+
+# 275996
+# 174481
+# 229016
+# 231472 
+
 ans.append("<Missing!>")
 
 # Question 9
@@ -163,9 +169,19 @@ ans.append("<Missing!>")
 # $520,000. Keeping the business going will require a $50,000 renovation now and will yield an
 # annual profit of $72,000 for the next 20 years (for simplicity assume these occur at year end, 
 # beginning one year from now). The discount/interest rate is 10%? What are the NPV and IRR of 
-# this decision? (Answer format ($xyz; ab.cd%) )
+# this decision?
 
-ans.append("<Missing!>")
+r          = 0.1   # 10%/yr discount rate
+value      = 520e3 # $520,000
+renovation = 50e3  # $50,000
+cost       = value + renovation
+profit     = 72e3  # $72,000/yr
+n          = 20    # 20 years
+cf         = [-cost] + ([profit] * n)
+npv        = fi.npv(cf, r)
+irr        = fi.irr(cf)
+
+ans.append("(%d; %.2f%%)" % (fi.rnd(npv), round(irr*100, 2)))
 
 # Question 10
 # (15 points) Sairah purchased an investment property for $350,000, 3 years ago. The after-tax 
@@ -174,7 +190,34 @@ ans.append("<Missing!>")
 # these are year end cashflows). The annual cost of capital (or cap rate) for this area is 9%. 
 # What is the value of the property today?
 
-ans.append("<Missing!>")
+# Approach 1:
+#  Setup a single cashflow (starting with purchase price, 3 years of 
+#  cash flow, and the 25 years of higher cash flows) and then compute 
+#  the npv of that cf. Finally, move that npv forward three years to 
+#  today.
+r              = 0.09             # 9%/yr => cap. rate
+purchase_price = 350e3            # $350,000
+n_init         = 3                # 3 years at low return
+n_rest         = 25               # 25 years at high return
+return_init    = 35e3             # $35,000/yr
+return_rest    = 42e3             # $42,000/yr
+cash_flow_init = [return_init] * n_init  
+cash_flow_rest = [return_rest] * n_rest  
+cf             = [-purchase_price] + cash_flow_init + cash_flow_rest
+npv            = fi.npv(cf, r)
+npv_today_1    = fi.comp(npv, n_init, r)
+
+# Approach 2:
+#  Compute the npv of the of first three years, then move that to the 
+#  present, and finally create a new cf with the previous brought-forward
+#  npv plus the 25 future payments. Using this new cf, compute the npv.
+cf          = [-purchase_price] + cash_flow_init
+npv         = fi.comp(fi.npv(cf, r), n_init, r)
+cf          = [npv] + cash_flow_rest
+npv_today_2 = fi.npv(cf, r)
+assert fi.rnd(npv_today_1) == fi.rnd(npv_today_2), "Q10: Approaches 1 & 2 disagree"
+
+ans.append(fi.rnd(npv_today_1))
 
 # Print answers from the ans array
 fi.print_lines(ans)
