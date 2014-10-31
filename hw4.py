@@ -28,10 +28,11 @@ ans.append("false")
 # of the bus proposal? Ann Arbor does not pay taxes and the discount rate 
 # is 5%.(Again, all cash flows except initial investments happen at the 
 # end of the year.) (You are strongly encouraged to use a spreadsheet.)
-# 29847
-# 31222
+
+#  29847
+#  31222
 # -10223
-# 19323
+#  19323
 
 ans.append("<Missing!>")
 
