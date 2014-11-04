@@ -9,7 +9,7 @@ ans = []
 # Question 1
 # (5 points) The project with the highest IRR is always the project with the highest NPV.
 
-ans.append("false")
+ans.append("False")
 
 
 # Question 2
@@ -26,15 +26,36 @@ ans.append("false")
 # The salvage value (price city can get in the future after maintenance) 
 # of the used buses in year 25 is expected to be $150,000. What is the NPV 
 # of the bus proposal? Ann Arbor does not pay taxes and the discount rate 
-# is 5%.(Again, all cash flows except initial investments happen at the 
-# end of the year.) (You are strongly encouraged to use a spreadsheet.)
+# is 5%.
 
-#  29847
-#  31222
-# -10223
-#  19323
+r        =  0.05        # 5%/yr discount rate
+capex    = -0.6e6       # $0.6M setup cost
+life     = 25           # usful life 25 years
 
-ans.append("<Missing!>")
+main_yr  = -50e3        # $50,000/yr maintenance cost
+main     = [main_yr] * life
+
+opex_yr  = -90e3        # $90,000/yr operations expenses
+opex_gr  = 0.02         # 2%/yr operations expense growth rate
+opex     = [fi.comp(opex_yr, n, opex_gr) for n in range(0, life)]
+
+advt_yr  = 75e3         # $75,000/yr advertisement revenue
+advt_gr  = 0.04         # 4%/yr advertisement revenue growth rate
+advt     = [fi.comp(advt_yr, n, advt_gr) for n in range(0, life)]
+
+bene_yr  = 100e3       # $100,000/yr parking and other benefits
+bene     = [bene_yr] * life
+
+# Setup the cashflows by combining capex, expenses, revenues, & residual
+cf       = [capex] + ([0] * life) 
+for i in range(life):
+    cf[i+1] = main[i] + opex[i] + advt[i] + bene[i]
+cf[15]   += -350e3       # $350,000 one-time major overhaul in yr. 15 
+cf[life] += 150e3        # $150,000 terminal value at end of life
+
+npv = fi.npv(cf, r)
+
+ans.append(fi.rnd(npv))
 
 # Question 3
 # (5 points) Your manager has the following two projects that he is considering, 
@@ -43,12 +64,7 @@ ans.append("<Missing!>")
 # $6,000, $7,000. Project B has an outlay of $20,000, and cash flows of $10,000, 
 # $12,000, and $14,000. Which project should you advise your manager to choose?
 
-# Either one is fine
-# Cannot decide based on information
-# Project A
-# Project B
-
-ans.append("<Missing!>")
+ans.append("Cannot decide based on information")
 
 # Question 4
 # (10 points) GE has the following two projects that it is considering; it can 
@@ -62,8 +78,28 @@ ans.append("<Missing!>")
 # Project B
 # Do not have enough information
 
-ans.append("<Missing!>")
+r    =  0.05 # 5%/yr discount rate
+cf_a = [
+#          CF  # Year
+        -10e6, # 0 
+          4e6, # 1
+          4e6, # 2
+          5e6  # 3
+       ] 
+cf_b = [
+#          CF  # Year
+        -10e6, # 0 
+            0, # 1
+            0, # 2
+         14e6  # 3
+       ] 
+npv_a = fi.npv(cf_a, r)
+npv_b = fi.npv(cf_b, r)
 
+if (npv_a > npv_b):
+    ans.append("Project A")
+else:
+    ans.append("Project B")
 
 # Question 5
 # (5 points) To get from net operating profits after tax (NOPAT) to free cash 
@@ -74,7 +110,7 @@ ans.append("<Missing!>")
 # False.
 # True.
 
-ans.append("<Missing!>")
+ans.append("False")
 
 # Question 6
 # (5 points) Last year your firm had revenue of $20 million, cost of goods sold 
@@ -86,12 +122,26 @@ ans.append("<Missing!>")
 # capital expenditures.) (You are encouraged to use a spreadsheet even for this 
 # specific type of question.)
 
-# 6120000
-# 7240000
-# 5250000
-# 4170000
+rev     =  20e6 # Revenues
+cogs    =  12e6 # COGS
+sga     =   2e6 # SG&A
 
-ans.append("<Missing!>")
+# Working Capital (WC)
+ar      =   6e6 # AR
+inv     =   4e6 # Inventory
+ap      =   4e6 # AP
+
+stmt = [
+      + rev  * (1+0.06), # Revenues: up by 6%
+      - cogs * (1+0.03), # COGS: up by 3%
+      - sga,             # SG&A: unchanged
+      - ar   * 0.12      # WC Change: 12% increase in AR
+]
+
+fcf = 0
+for i in stmt: fcf += i
+
+ans.append(fi.rnd(fcf))
 
 # Question 7
 # (15 points) Silver Bear Golf (SBG) is a manufacturer of top quality golf clubs 
@@ -107,10 +157,28 @@ ans.append("<Missing!>")
 # the new technology? Ignore taxes and assume a discount rate of 9%. (Hint: Think 
 # incrementally; the difference between the world without and with this new 
 # technology! Also, ignoring taxes will be a big help if you think right.) 
-# (Enter just the number without the $ sign or a comma; round off decimals.)(You 
-# are strongly encouraged to use a spreadsheet.)
 
-ans.append("<Missing!>")
+r      = 0.09       # 9%/yr discount rate
+life   = 10         # project lifetime
+qty_yr = 1000       # the qty sold last year
+qty_gr = 0.12       # 12%/yr
+qty    = [fi.comp(qty_yr, i+1, qty_gr) for i in range(life)]
+
+sales_price = 200   # $200/putter
+cost_old    = 150   # $150/putter
+profit_old  = sales_price - cost_old
+rev_old     = [q * profit_old for q in qty]
+cost_new    = 135
+profit_new  = sales_price - cost_new
+rev_new     = [q * profit_new for q in qty]
+investment  = 100e3 # New tech. cost
+
+# Cashflows: Investment and the delta of new and old revenues
+cf = [-investment] + ([0] * life)
+for i in range(life): cf[i+1] = rev_new[i] - rev_old[i]
+npv = fi.npv(cf, r)
+
+ans.append(fi.rnd(npv))
 
 # Question 8
 # (15 points) Fresh off the excitement of the 2012 London Olympic Games, you decide 
@@ -171,6 +239,30 @@ ans.append("<Missing!>")
 # (H, 23705)
 
 ans.append("<Missing!>")
+
+# Class Problem: 
+# The CapEx and yearly maintenance cost of two machines are as follows:
+#  A: -20M$, -2M$, -2M$
+#  B: -25M$, -1M$, -1M$, -1M$
+# Which machine should you purchase?
+
+r = 0.05 # 5%/yr discount rate
+
+life_a = 2
+cf_a   = [-20] + ([-2] * life_a)
+npv_a  = fi.npv(cf_a, r)
+cost_a = fi.pmt(npv_a, life_a, r)
+
+life_b = 3
+cf_b   = [-25] + ([-1] * life_b)
+npv_b  = fi.npv(cf_b, r)
+cost_b = fi.pmt(npv_b, life_b, r)
+
+if (abs(cost_b) < abs(cost_a)):
+    ans.append("Machine B: %.2f" % round(cost_b, 2))
+else:
+    ans.append("Machine A: %.2f" % round(cost_a, 2))
+
 
 # Print answers from the ans array
 fi.print_lines(ans)
