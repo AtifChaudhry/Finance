@@ -231,38 +231,28 @@ ans.append("<Missing!>")
 # choose? What is the annualized cost of their choice? Assume a discount rate of 
 # 6%, and ignore all taxes.
 
-# (L, 24815)
-# (L, 16875)
-# (H, 24565)
-# (H, 19714)
-# (L, 20854)
-# (H, 23705)
+r = 0.06        # 6%/yr discount rate
 
-ans.append("<Missing!>")
+# H: High Quality Furnace
+price_h    = 110e3                          # $110,000 purchase price
+maint_h    = 4e3                            # $4,000/yr maintenance
+life_h     = 7                              # 7 years lifetime
+cf_h       = [price_h] + [maint_h] * life_h # cashflow for life of furnace
+npv_h      = fi.npv(cf_h, r)                # npv of cashflow at 6% 
+ann_cost_h = fi.pmt(npv_h, life_h, r)       # annulaized cost computed as payments
 
-# Class Problem: 
-# The CapEx and yearly maintenance cost of two machines are as follows:
-#  A: -20M$, -2M$, -2M$
-#  B: -25M$, -1M$, -1M$, -1M$
-# Which machine should you purchase?
+# L: Low Quality Furnace
+price_l    = 60e3                           # $60,000 purchase price
+maint_l    = 7.5e3                          # $7,500/yr maintenance
+life_l     = 4                              # 4 years lifetime
+cf_l       = [price_l] + [maint_l] * life_l # cashflow for life of furnace
+npv_l      = fi.npv(cf_l, r)                # npv of cashflow at 6% 
+ann_cost_l = fi.pmt(npv_l, life_l, r)       # annulaized cost computed as payments
 
-r = 0.05 # 5%/yr discount rate
-
-life_a = 2
-cf_a   = [-20] + ([-2] * life_a)
-npv_a  = fi.npv(cf_a, r)
-cost_a = fi.pmt(npv_a, life_a, r)
-
-life_b = 3
-cf_b   = [-25] + ([-1] * life_b)
-npv_b  = fi.npv(cf_b, r)
-cost_b = fi.pmt(npv_b, life_b, r)
-
-if (abs(cost_b) < abs(cost_a)):
-    ans.append("Machine B: %.2f" % round(cost_b, 2))
+if (ann_cost_l < ann_cost_h):
+    ans.append("(L, %d)" % fi.rnd(ann_cost_l))
 else:
-    ans.append("Machine A: %.2f" % round(cost_a, 2))
-
+    ans.append("(H, %d)" % fi.rnd(ann_cost_h))
 
 # Print answers from the ans array
 fi.print_lines(ans)
