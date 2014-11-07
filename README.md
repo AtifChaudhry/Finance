@@ -1,6 +1,6 @@
 Introduction to Finance
 =======
-by Gautam Kaul (https://www.coursera.org/course/introfinance)
+by Gautam Kaul
 
 IPython Notebook Viewer: http://nbviewer.ipython.org/github/AtifChaudhry/finance/tree/master/
 
