@@ -66,6 +66,30 @@ def print_lines(a):
  for i in range(len(a)): 
   print "%2s. %s" % (str(i+1), str(a[i]))
 
+## Draw a Cash Flow Diagram for a CF
+def cfplot(cf):
+    import matplotlib.pyplot as plt
+    import matplotlib.lines as mlines
+    fig, ax = plt.subplots()
+    #ax.plot(cf, 'kD')
+    xmargin = 0.5
+    ax.set_xlim(-xmargin, len(cf) - 1 + xmargin)
+    ax.set_ylim(min(cf)*(1.1), max(cf)*(1.1))
+    # integer ticks
+    ax.set_xticks(range(len(cf)))
+    # lines
+    for i, c in enumerate(cf):
+        if c > 0:
+            marker = 'k^'
+        elif c <0:
+            marker = 'kv'
+        else:
+            marker = 'kd'
+        ax.plot(i, c, marker)
+        line = mlines.Line2D((i, i), (0, c), 1, lw=2.)
+        ax.add_line(line)
+    ax.grid()
+
 ####
 ## Example:
 ##  How to construct leveled and growth cashflows using list comprehensions,
