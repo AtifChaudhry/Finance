@@ -74,7 +74,7 @@ class Answers(object):
   return self.add(x, True)
  def display(self):
   for i, v in enumerate(self.ans): 
-   print "%2s. %s" % (str(i+1), str(v))
+   print("%2d. %s" % (i+1, str(v)))
 
 ## Draw a Cash Flow Diagram for a CF
 def cfplot(cf):
