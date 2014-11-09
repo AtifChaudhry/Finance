@@ -62,8 +62,8 @@ def cxr(cf1, cf2): np.irr(np.array(cf1) - np.array(cf2))
 def rnd(x): return int(round(x))
 
 ## Store/Print an array of string as numbered lines.
-import locale
 class Answers(object):
+ import locale
  def __init__(self):
   self.ans = []
   locale.setlocale(locale.LC_ALL, '')
