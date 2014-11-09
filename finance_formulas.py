@@ -81,7 +81,6 @@ def cfplot(cf):
     import matplotlib.pyplot as plt
     import matplotlib.lines as mlines
     fig, ax = plt.subplots()
-    #ax.plot(cf, 'kD')
     xmargin = 0.5
     ax.set_xlim(-xmargin, len(cf) - 1 + xmargin)
     ax.set_ylim(min(cf)*(1.1), max(cf)*(1.1))
