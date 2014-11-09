@@ -61,10 +61,20 @@ def cxr(cf1, cf2): np.irr(np.array(cf1) - np.array(cf2))
 ## Composes int() and round()
 def rnd(x): return int(round(x))
 
-## Print an array of string as numbered lines.
-def print_lines(a):
- for i in range(len(a)): 
-  print "%2s. %s" % (str(i+1), str(a[i]))
+## Store/Print an array of string as numbered lines.
+import locale
+class Answers(object):
+ def __init__(self):
+  self.ans = []
+  locale.setlocale(locale.LC_ALL, '')
+ def add(self, x, currency = False):
+  self.ans.append(x)
+  return locale.currency(x, grouping=True)[:-3] if currency else x
+ def amt(self, x):
+  return self.add(x, True)
+ def display(self):
+  for i, v in enumerate(self.ans): 
+   print "%2s. %s" % (str(i+1), str(v))
 
 ## Draw a Cash Flow Diagram for a CF
 def cfplot(cf):
