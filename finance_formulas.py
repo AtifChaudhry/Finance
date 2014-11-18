@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 
-#####################################################################################
-##                                  Finance functions                              ##
-#####################################################################################
+###############################################################################
+##                                  Finance functions                        ##
+###############################################################################
 
 ## Basic compounding and discounting
 ##  c - amount (single)
@@ -35,28 +35,21 @@ assert (round(pmt(100, 1, 0.1), 2) == 110),                   "Test 3.a: Failed"
 assert (round(pmt(pv(1000, 10, 0.06), 10, 0.06), 2) == 1000), "Test 3.b: Failed" 
 
 ## Net Present Value (NPV) of a cash flow (the initial investment is cf[0])
-##  cf - cash flow stream (including any initial investment < 0)
+##  cf - cash flow stream (including any initial investment at time=0)
 ##  r  - the discount rate
 ## Example:
 ##  The CF for an intial investment of $100, which pays $0 in the first
 ##  period, and then pays $150 in the second period will be [-100, 0, 150].
 def npv(cf, r):
- pv = 0.0
- for n in range(len(cf)): pv += disc(cf[n], n, r)
- return pv
+ return reduce((lambda pv,(n,c): pv+disc(c,n,r)), enumerate(cf), 0.0)
+
 assert (round(npv([-100, 110], 0.1), 2) == 0), "Test 4.a: Failed"
 
-import numpy as np
 
 ## Internal Rate of Return (IRR)
 ##  cf - cash flow stream (including any initial investment < 0)
+import numpy as np
 irr = np.irr
-
-## Crossover Rate - The rate at which the NPV of the two 
-## cash flow streams is equal.
-##  cf1 - the first cash flow stream 
-##  cf2 - the second cash flow stream
-def cxr(cf1, cf2): np.irr(np.array(cf1) - np.array(cf2))
 
 ## Composes int() and round()
 def rnd(x): return int(round(x))
@@ -75,29 +68,6 @@ class Answers(object):
  def display(self):
   for i, v in enumerate(self.ans): 
    print("%2d. %s" % (i+1, str(v)))
-
-## Draw a Cash Flow Diagram for a CF
-def cfplot(cf):
-    import matplotlib.pyplot as plt
-    import matplotlib.lines as mlines
-    fig, ax = plt.subplots()
-    xmargin = 0.5
-    ax.set_xlim(-xmargin, len(cf) - 1 + xmargin)
-    ax.set_ylim(min(cf)*(1.1), max(cf)*(1.1))
-    # integer ticks
-    ax.set_xticks(range(len(cf)))
-    # lines
-    for i, c in enumerate(cf):
-        if c > 0:
-            marker = 'k^'
-        elif c <0:
-            marker = 'kv'
-        else:
-            marker = 'kd'
-        ax.plot(i, c, marker)
-        line = mlines.Line2D((i, i), (0, c), 1, lw=2.)
-        ax.add_line(line)
-    ax.grid()
 
 ####
 ## Example:
@@ -120,4 +90,4 @@ if __name__ == "__main__":
  print "NPV(Growth Cashflows) = $%d" % fi.npv(cf_growth, r)
 
 
-#####################################################################################
+################################################################################
