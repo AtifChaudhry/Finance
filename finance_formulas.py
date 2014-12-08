@@ -37,7 +37,7 @@ assert (round(fv(100, 2, 0.06), 2) == round(comp(100,1,0.06)+comp(100,0,0.06), 2
 def pmt(pv, n, r, fv=0): return ((pv - disc(fv,n,r))*r*(1.0+r)**n)/((1.0+r)**n - 1)
 assert (round(pmt(100, 1, 0.1), 2) == 110),                   "Test 3.a: Failed" 
 assert (round(pmt(pv(1000, 10, 0.06), 10, 0.06), 2) == 1000), "Test 3.b: Failed" 
-assert (round(pmt(916.56,14,0.08,1000)) == float(70)), "Test 3,c: Failed"
+assert (round(pmt(916.56,14,0.08, fv=1000)) == float(70)),    "Test 3,c: Failed"
 
 ## Net Present Value (NPV) of a cash flow (the initial investment is cf[0])
 ##  cf - cash flow stream (including any initial investment at time=0)
