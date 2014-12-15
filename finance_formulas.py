@@ -1,74 +1,74 @@
 #! /usr/bin/env python
 
 ##
-## Functions for Introductory Finance 
+## Introductory Finance 
 ##
 
 def comp(c, n, r): 
  """ 
  Computes the future/compounded value of a single amount
- c - amount (single)
- n - number of periods
- r - interest rate (per period)
+  c - amount (single)
+  n - number of periods
+  r - interest rate (per period)
  """
  return float(c) * ((1+r)**n)
 
 def disc(c, n, r): 
  """ 
  Computes the present/discounted value of a single amount
- c - amount (single)
- n - number of periods
- r - interest rate (per period)
+  c - amount (single)
+  n - number of periods
+  r - interest rate (per period)
  """
  return float(c) / ((1+r)**n)
 
 def pv(c, n, r, g=0, fv=0): 
  """
  Computes the PV of a leveled cache flow (annunity).
- c  - payment (fixed per period)
- n  - number of periods
- r  - interest rate (per period)
- g  - (opional) growth rate (per period)
- fv - (optional) future value of an additional final cashflow
+  c  - payment (fixed per period)
+  n  - number of periods
+  r  - interest rate (per period)
+  g  - growth rate (per period)
+  fv - future value of an additional final cashflow
  """
  return c*(1.0/(r-g))*(1 - ((1.0+g)**n)/((1.0+r)**n)) + disc(fv,n,r)
 
 def fv(c, n, r, g=0): 
  """
  Computes the FV of a leveled cache flow (annunity).
- c  - payment (fixed per period)
- n  - number of periods
- r  - interest rate (per period)
- g  - (opional) growth rate (per period)
- fv - (optional) future value of an additional final cashflow
+  c  - payment (fixed per period)
+  n  - number of periods
+  r  - interest rate (per period)
+  g  - growth rate (per period)
+  fv - future value of an additional final cashflow
  """
  return comp(pv(c, n, r, g), n, r)
 
 def pmt(pv, n, r, fv=0): 
  """
  Computes the payment for a leveled cash flow (annuity).
- pv - present value (of cash flow)
- n  - number of periods
- r  - interest rate (per period)
- fv - (optional) future value of an additional final cashflow
+  pv - present value (of cash flow)
+  n  - number of periods
+  r  - interest rate (per period)
+  fv - future value of an additional final cashflow
  """
  return ((pv - disc(fv,n,r))*r*(1.0+r)**n)/((1.0+r)**n - 1)
 
 def npv(cf, r):
  """
  Net Present Value (NPV) of a cash flow (the initial investment is cf[0])
- cf - cash flow stream (including any initial investment at time=0)
- r  - the discount rate
+  cf - cash flow stream (including any initial investment at time=0)
+  r  - the discount rate
  Example:
- The CF for an intial investment of $100, which pays $0 in the first
- period, and then pays $150 in the second period will be [-100, 0, 150].
+  The CF for an intial investment of $100, which pays $0 in the first
+  period, and then pays $150 in the second period will be [-100, 0, 150].
  """
  return reduce((lambda pv,(n,c): pv+disc(c,n,r)), enumerate(cf), 0.0)
 
 def irr(cf):
  """
  Internal Rate of Return (IRR)
- cf - cash flow stream (including any initial investment < 0)
+  cf - cash flow stream (including any initial investment < 0)
  """
  import numpy as np
  np.irr(cf)
@@ -77,9 +77,9 @@ def rnd(x):
  """Composes int() and round()"""
  return int(round(x))
 
+import locale
 class Answers(object):
  """Store/Print an array of string as numbered lines."""
- import locale
  def __init__(self):
   self.ans = []
   locale.setlocale(locale.LC_ALL, '')
